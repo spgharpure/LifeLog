@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from dashboard_gui import DashboardPage
-from todo_gui import ToDoPage
+from page_guis import *
+import database.database as database
 
 class LifeLogApplication(tk.Tk):
     def __init__(self):
