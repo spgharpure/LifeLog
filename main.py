@@ -27,6 +27,8 @@ class LifeLogApplication(tk.Tk):
 
     def show_frame(self, page_name):
         frame = self.frames[page_name]
+        if hasattr(frame, "refresh"):
+            frame.refresh()
         frame.tkraise()
 
 if __name__ == "__main__":
