@@ -17,7 +17,7 @@ class LifeLogApplication(tk.Tk):
 
         self.frames = {}
 
-        for PageClass in (DashboardPage, ToDoPage, HabitPage):
+        for PageClass in (DashboardPage, ToDoPage, HabitPage, MoodPage):
             page_name = PageClass.__name__
             frame = PageClass(parent=container, controller=self)
             self.frames[page_name] = frame

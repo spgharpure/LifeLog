@@ -1,5 +1,5 @@
 from tkinter import ttk
-from database import habits_db, tasks_db
+from database import habits_db, tasks_db, moods_db
 from datetime import date
 
 class DashboardPage(ttk.Frame):
@@ -28,11 +28,16 @@ class DashboardPage(ttk.Frame):
         self.tasks_today_label.pack(anchor="w")
 
         streak_block = ttk.Frame(stats)
-        streak_block.grid(row=0, column=2, sticky="w", padx=(0, 30))
+        streak_block.grid(row=0, column=1, sticky="w", padx=(0, 30))
         ttk.Label(streak_block, text="Habit streak", font=("PT Mono", 11, "bold")).pack(anchor="w")
-        self.streak_label = ttk.Label(streak_block, text="0 days", font=("PT Mono", 20, "bold"))
+        self.streak_label = ttk.Label(streak_block, text="0 days", font=("PT Mono", 20))
         self.streak_label.pack(anchor="w")
 
+        mood_block = ttk.Frame(stats)
+        mood_block.grid(row=0, column=2, sticky="w")
+        ttk.Label(mood_block, text="Mood today", font=("PT Mono", 11, "bold")).pack(anchor="w")
+        self.mood_label = ttk.Label(mood_block, text="Not logged", font=("PT Mono", 20))
+        self.mood_label.pack(anchor="w")
 
         ttk.Label(self, text="Go to", font=("PT Mono", 11, "bold")).pack(anchor="w", padx=20, pady=(20, 5))
 
@@ -94,10 +99,17 @@ class DashboardPage(ttk.Frame):
         streaks = [habits_db.calculate_streak(h[0]) for h in habits]
         return max(streaks)
 
+    def get_todays_mood(self):
+        mood = moods_db.get_mood_for_date(date.today().strftime("%Y-%m-%d"))
+        if not mood:
+            return "Not logged"
+        return mood
+
     def refresh(self):
         self.date_label.config(text=self.get_today_string())
         self.tasks_today_label.config(text=self.get_tasks_today_text())
         self.streak_label.config(text=f"{self.get_best_streak()} days")
+        self.mood_label.config(text=self.get_todays_mood())
 
     
 

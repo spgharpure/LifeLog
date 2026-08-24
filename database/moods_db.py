@@ -4,7 +4,7 @@ def set_mood(mood_date, mood_value):
     conn = database.get_connection()
     c = conn.cursor()
 
-    c.execute("SELCT mood_id from moods WHERE mood_date = ?", (mood_date,))
+    c.execute("SELECT mood_id from moods WHERE mood_date = ?", (mood_date,))
     existing = c.fetchone()
 
     if existing:
