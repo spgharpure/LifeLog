@@ -1,5 +1,5 @@
 from tkinter import ttk
-import database.tasks_db as tasks_db
+from database import habits_db, tasks_db
 from datetime import date
 
 class DashboardPage(ttk.Frame):
@@ -21,9 +21,18 @@ class DashboardPage(ttk.Frame):
         stats = ttk.Frame(self)
         stats.pack(fill="x", padx=20, pady=10)
 
-        ttk.Label(stats, text="Tasks today", font=("PT Mono", 11, "bold")).pack(anchor="w")
-        self.tasks_today_label = ttk.Label(stats, text="0 / 0", font=("PT Mono", 20))
+        tasks_block = ttk.Frame(stats)
+        tasks_block.grid(row=0, column=0, sticky="w", padx=(0, 30))
+        ttk.Label(tasks_block, text="Tasks today", font=("PT Mono", 11, "bold")).pack(anchor="w")
+        self.tasks_today_label = ttk.Label(tasks_block, text="0 / 0", font=("PT Mono", 20))
         self.tasks_today_label.pack(anchor="w")
+
+        streak_block = ttk.Frame(stats)
+        streak_block.grid(row=0, column=2, sticky="w", padx=(0, 30))
+        ttk.Label(streak_block, text="Habit streak", font=("PT Mono", 11, "bold")).pack(anchor="w")
+        self.streak_label = ttk.Label(streak_block, text="0 days", font=("PT Mono", 20, "bold"))
+        self.streak_label.pack(anchor="w")
+
 
         ttk.Label(self, text="Go to", font=("PT Mono", 11, "bold")).pack(anchor="w", padx=20, pady=(20, 5))
 
@@ -78,9 +87,17 @@ class DashboardPage(ttk.Frame):
         done = sum(1 for task in tasks if task[2] == 1)
         return f"{done} / {total}"
 
+    def get_best_streak(self):
+        habits = habits_db.get_all_habits()
+        if not habits:
+            return 0
+        streaks = [habits_db.calculate_streak(h[0]) for h in habits]
+        return max(streaks)
+
     def refresh(self):
         self.date_label.config(text=self.get_today_string())
         self.tasks_today_label.config(text=self.get_tasks_today_text())
+        self.streak_label.config(text=f"{self.get_best_streak()} days")
 
     
 
