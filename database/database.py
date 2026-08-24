@@ -27,5 +27,10 @@ c.execute("""CREATE TABLE IF NOT EXISTS habit_checkins (
             FOREIGN KEY (habit_id) REFERENCES habits (habit_id)
             )""")
 
+c.execute("""CREATE TABLE IF NOT EXISTS moods (
+            mood_id INTEGER NOT NULL,
+            mood_date TEXT NOT NULL UNIQUE,
+            mood_value TEXT NOT NULL)""")
+
 conn.commit()
 
