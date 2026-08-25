@@ -32,5 +32,12 @@ c.execute("""CREATE TABLE IF NOT EXISTS moods (
             mood_date TEXT NOT NULL UNIQUE,
             mood_value TEXT NOT NULL)""")
 
+c.execute("""CREATE TABLE IF NOT EXISTS journal_entries (
+            entry_id INTEGER NOT NULL PRIMARY KEY,
+            entry_date TEXT NOT NULL
+            title TEXT,
+            content TEXT NOT NULL
+            )""")
+
 conn.commit()
 
