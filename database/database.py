@@ -39,5 +39,19 @@ c.execute("""CREATE TABLE IF NOT EXISTS journal_entries (
             content TEXT NOT NULL
             )""")
 
+c.execute("""CREATE TABLE IF NOT EXISTS goals (
+            goal_id INTEGER NOT NULL PRIMARY KEY,
+            goal_text TEXT NOT NULL,
+            term TEXT,
+            is_done INTEGER NOT NULL DEFAULT 0 CHECK (is_done IN (0, 1)),
+            position INTEGER NOT NULL)""")
+
+c.execute("""CREATE TABLE IF NOT EXISTS sub_goals (
+            sub_goal_id INTEGER NOT NULL PRIMARY KEY,
+            goal_id INTEGER NOT NULL,
+            sub_goal_text TEXT NOT NULL,
+            is_done INTEGER NOT NULL DEFAULT 0 CHECK (is_done IN (0, 1)),
+            FOREIGN KEY (goal_id) REFERENCES goals (goal_id))""")
+
 conn.commit()
 
