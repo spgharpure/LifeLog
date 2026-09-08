@@ -8,7 +8,7 @@ def add_goal(goal_text, term):
     count = c.fetchone()[0]
     new_position = count
 
-    c.execute("INSERT INTO goals (goat_text, term, position) VALUES (?, ?, ?)",
+    c.execute("INSERT INTO goals (goal_text, term, position) VALUES (?, ?, ?)",
             (goal_text, term, new_position))
 
     conn.commit()
@@ -19,16 +19,6 @@ def get_active_goals():
     c = conn.cursor()
 
     c.execute("SELECT * FROM goals WHERE is_done = 0 ORDER BY position")
-    rows = c.fetchall()
-
-    conn.close()
-    return rows
-
-def get_archived_goals():
-    conn = database.get_connection()
-    c = conn.cursor()
-
-    c.execute("SELECT * FROM goals WHERE is_done = 1 ORDER BY goal_id DESC")
     rows = c.fetchall()
 
     conn.close()
