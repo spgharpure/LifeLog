@@ -53,5 +53,13 @@ c.execute("""CREATE TABLE IF NOT EXISTS sub_goals (
             is_done INTEGER NOT NULL DEFAULT 0 CHECK (is_done IN (0, 1)),
             FOREIGN KEY (goal_id) REFERENCES goals (goal_id))""")
 
+c.execute("""CREATE TABLE IF NOT EXISTS water_log (
+            log_id INTEGER NOT NULL PRIMARY KEY,
+            log_date TEXT NOT NULL UNIQUE,
+            ounces INTEGER NOT NULL DEFAULT 0,
+            daily_goal INTEGER NOT NULL DEFAULT 64)""")
+
+
+
 conn.commit()
 
